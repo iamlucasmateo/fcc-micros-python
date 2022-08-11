@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8003:8000
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+  
+  db:
+    image: mysql:5.7.22
+    restart: always
+    hostname: mysql_db
+    environment:
+      MYSQL_DATABASE: fastapi
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - .dbdata:/var/lib/mysql
+    ports:
+      # local port changed so as not to compete with local MySQL install
+      # docker port 3306 is the usual MySQL port
+      - 33068:3306
+
