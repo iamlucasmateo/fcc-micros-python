@@ -1,1 +1,7 @@
-23:11 -> REST API with ViewSets 
+59:30 -> Queue service 
+
+
+Flask
+- Did not end up using manager.py. Flask > 2 has incorporated db commands
+- flask db init, flask db migrate, flask db upgrade
+- Need to make env variable available: FLASK_APP=main.py

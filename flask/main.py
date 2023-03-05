@@ -1,16 +1,18 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from flask_migrate import Migrate
 from sqlalchemy import UniqueConstraint
 
 # THERE IS A PROBLEM WITH THIS SETTING, FROM THE TUTO
 # WORKING WITH FASTAPI INSTEAD
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:root@db/main"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:root@db/flask"
 CORS(app)
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 class Product(db.Model):
     # autoincrement = False to prevent differences with Django app
