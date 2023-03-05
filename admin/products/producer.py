@@ -1,3 +1,5 @@
+import json
+
 import pika
 
 from my_secrets import AMQP_URL
@@ -10,9 +12,11 @@ channel = connection.channel()
 FLASK_APP_ROUTE = "main"
 DJANGO_APP_ROUTE = "admin"
 
-def publish():
+def publish(method, body):
+    properties = pika.BasicProperties(method)
     channel.basic_publish(
         exchange="",
         routing_key=FLASK_APP_ROUTE,
-        body="hello from flask"
+        body=json.dumps(body),
+        properties=properties
     )

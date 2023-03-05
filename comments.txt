@@ -1,4 +1,4 @@
-59:30 -> Queue service 
+1h:18m -> Internal HTTP Requests 
 
 
 Flask
