@@ -1,14 +1,14 @@
 import requests
 
 from dataclasses import dataclass
-from flask import Flask, jsonify
+from flask import Flask, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_migrate import Migrate
 from sqlalchemy import UniqueConstraint
 
-# THERE IS A PROBLEM WITH THIS SETTING, FROM THE TUTO
-# WORKING WITH FASTAPI INSTEAD
+from producer import publish
+
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:root@db/flask"
@@ -43,31 +43,40 @@ def index():
 
 def admin_app_url(id) -> str:
     # This was also added to ALLOWED_HOSTS in Django settings
-    # There are other ways to do this
+    # There are other ways to do this (with Docker networks, hosts, etc)
     DOCKER_INTERNAL_HOST = "172.17.0.1"
     url = f"http://{DOCKER_INTERNAL_HOST}:8000/api/products"
     if id is not None:
         url += f"/{id}"
     
-    print("URL", url)
-    
     return url
 
 
-@app.route("/api/products", methods=["POST"])
-def like(id):
-    admin_app_url(id)
-    # requests.put()
-    # print(type(product), product)
-
-    # return product
-
-@app.route("/api/test_products/<int:id>", methods=["GET"])
+@app.route("/api/products/<int:id>/like_test", methods=["GET"])
 def like_test(id):
     url = admin_app_url(id)
-    response = requests.get(url)
+    res = requests.get(url)
 
-    return response.json()
+    return jsonify(res.json())
+
+@app.route("/api/products/<int:id>/like", methods=["POST"])
+def like(id):
+    url = admin_app_url(id)
+    response = requests.get(url)
+    json = response.json()
+    try:
+        product_user = ProductUser(user_id=json["id"], product_id=id)
+        db.session.add(product_user)
+        db.session.commit()
+        
+        # event
+        publish("product_liked", id)
+    except:
+        abort(400, "Already liked")
+
+    return jsonify({
+        "message": "success",
+    })
 
 
 if __name__ == "__main__":
