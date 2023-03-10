@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Table } from '../components/table';
+import { ImagesTable } from './ImagesTable';
 import { Product, ProductColumns } from '../interfaces/Product'
 
 
@@ -17,12 +17,10 @@ export const AdminApp = () => {
         )();
     }, [])
 
-    const columns: Array<String> = ProductColumns;
-    const data: Array<Array<String>> = products.map(product => Object.values(product));
     return (
         <>
             <h2>Admin App</h2>
-            <Table columns={columns} data={data}/>
+            <ImagesTable products={products}/>
         </>
         
     )
