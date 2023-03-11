@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import { ImagesTable } from './ImagesTable';
-import { Product, ProductColumns } from '../interfaces/Product'
+import { Product } from '../interfaces/Product';
+import { getProducts } from './apiCalls';
 
 
 export const AdminApp = () => {
@@ -9,9 +10,7 @@ export const AdminApp = () => {
     useEffect(() => {
         (
             async () => {
-                const apiUrl = "http://localhost:8000/api/products/";
-                const apiResponse = await fetch(apiUrl);
-                const products: Array<Product> = await apiResponse.json()
+                const products: Array<Product> = await getProducts();
                 setProducts(products)
             }
         )();

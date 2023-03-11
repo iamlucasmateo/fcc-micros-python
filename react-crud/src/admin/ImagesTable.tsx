@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Link } from 'react-router-dom';
-import { JsxElement } from 'typescript';
+import { deleteProduct } from './apiCalls';
 
 import { Product, ProductColumns } from '../interfaces/Product';
 
@@ -36,6 +36,9 @@ export const ImagesTable = (props: any) => {
     const deleteButtonStyle = {
         border: "1px solid black"
     }
+    const onDeleteClick = (productId: number) => {
+        deleteProduct(productId);
+    }
     const renderCell = (product: any, column: string, columnIndex: number) => {
         if (column === "image") {
             const value = product[column];
@@ -44,7 +47,7 @@ export const ImagesTable = (props: any) => {
             return (
                 <div>
                     <Link to={`/admin/update/${product["id"]}`}>Update</Link>
-                    <p style={deleteButtonStyle}>Delete</p>
+                    <p style={deleteButtonStyle} onClick={() => onDeleteClick(product.id)}>Delete</p>
                 </div>
             )
         } else {
@@ -55,16 +58,15 @@ export const ImagesTable = (props: any) => {
     }
     const renderRow = (product: Product) => {
         const cells = tableColumns.map((column: string, columnIndex: number) => {
-            return <td style={cellStyle}>{renderCell(product, column, columnIndex)}</td>
+            return <td style={cellStyle} key={columnIndex}>{renderCell(product, column, columnIndex)}</td>
         })
 
         return cells;
     }
     let rows;
     if (props.products && props.products.length > 0){
-        console.log("PROPS",props.products)
         rows = props.products.map((product: Product, index: number) => ( 
-                <tr>{renderRow(product)}</tr>
+                <tr key={index}>{renderRow(product)}</tr>
             ))
     } else {
         rows = []
