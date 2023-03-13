@@ -61,6 +61,7 @@ def like_test(id):
 
 @app.route("/api/products/<int:id>/like", methods=["POST"])
 def like(id):
+    print("Received like")
     url = admin_app_url(id)
     response = requests.get(url)
     json = response.json()

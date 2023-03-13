@@ -32,6 +32,7 @@ def callback(channel, method, properties, body):
     
     elif properties.content_type == "product_deleted":
         product = Product.query.get(data)
+        print("delete:", product)
         db.session.delete(product)
         db.session.commit()
 

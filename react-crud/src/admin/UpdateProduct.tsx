@@ -31,6 +31,7 @@ export const UpdateProduct = () => {
     const onSubmit = (e: any) => {
         e.preventDefault();
         updateProduct(productId, title, imageUrl).catch(error => alert(error));
+        window.location.href ="/admin/products"
     }
 
     return (

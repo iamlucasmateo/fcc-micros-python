@@ -10,6 +10,7 @@ export const CreateProduct = () => {
     const onSubmit = (e: any) => {
         e.preventDefault();
         createProduct(title, imageUrl).catch(error => alert(error));
+        window.location.href = "/admin/products"
     }
 
     return (

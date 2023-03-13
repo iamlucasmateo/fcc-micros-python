@@ -48,5 +48,23 @@ export const deleteProduct = async (id: number) => {
 }
 
 export const updateProduct = async (productId: String, newTitle: String, newImageUrl: String) => {
-    console.log(productId, newTitle, newImageUrl);
+    const requestConfig = {
+        method: "PUT",
+        body: JSON.stringify({
+            "title": newTitle,
+            "image": newImageUrl,
+        }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }
+    const fullUrl = `${apiUrl}${productId}`;
+    await fetch(fullUrl, requestConfig);
+}
+
+const MAIN_APP_URL = "http://localhost:8001"
+
+export const likeProduct = async (productId: number) => {
+    const fullUrl = `${MAIN_APP_URL}/api/products/${productId}/like`;
+    await fetch(fullUrl, {method: "POST"});
 }

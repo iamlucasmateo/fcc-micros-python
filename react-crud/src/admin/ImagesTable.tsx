@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Link } from 'react-router-dom';
-import { deleteProduct } from './apiCalls';
+import { deleteProduct, likeProduct } from './apiCalls';
 
 import { Product, ProductColumns } from '../interfaces/Product';
 
@@ -33,11 +33,16 @@ export const ImagesTable = (props: any) => {
         borderCollapse: "collapse" as "collapse"
     }
 
-    const deleteButtonStyle = {
+    const buttonStyle = {
         border: "1px solid black"
     }
     const onDeleteClick = (productId: number) => {
         deleteProduct(productId);
+        window.location.href = "/admin/products";
+    }
+    const onLikeClick = (productId: number) => {
+        likeProduct(productId);
+        window.location.href = "/admin/products";
     }
     const renderCell = (product: any, column: string, columnIndex: number) => {
         if (column === "image") {
@@ -46,8 +51,9 @@ export const ImagesTable = (props: any) => {
         } else if (column === "Update"){
             return (
                 <div>
-                    <Link to={`/admin/update/${product["id"]}`}>Update</Link>
-                    <p style={deleteButtonStyle} onClick={() => onDeleteClick(product.id)}>Delete</p>
+                    <Link to={`/admin/products/update/${product["id"]}`}>Update</Link>
+                    <p style={buttonStyle} onClick={() => onDeleteClick(product.id)}>Delete</p>
+                    <p style={buttonStyle} onClick={() => onLikeClick(product.id)}>Like</p>
                 </div>
             )
         } else {
