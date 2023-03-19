@@ -1,7 +1,9 @@
-1h:18m -> Internal HTTP Requests 
-
-
 Flask
 - Did not end up using manager.py. Flask > 2 has incorporated db commands
 - flask db init, flask db migrate, flask db upgrade
 - Need to make env variable available: FLASK_APP=main.py
+
+
+Tutorial 1: https://www.youtube.com/watch?v=0iB5IPoTDts
+Tutorial 2: https://www.youtube.com/watch?v=Cy9fAvsXGZA&t=7s
+Tutorial 3: https://www.youtube.com/watch?v=NVvIpqmf_Xc
